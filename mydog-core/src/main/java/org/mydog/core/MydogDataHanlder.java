@@ -56,6 +56,7 @@ public class MydogDataHanlder {
 				if(StringUtils.equalsIgnoreCase("PRI", StringTools.toString(tableColumn.get("key")))){
 					data.put("pri", tableColumn);
 				}
+				System.out.println("tableColumn: " + tableColumn );  
 			}
 			data.put("tableInfos", tableColumns);
 			data.put("tableName", entry.getKey());
