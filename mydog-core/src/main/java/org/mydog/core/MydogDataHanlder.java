@@ -92,8 +92,8 @@ public class MydogDataHanlder {
 				destFile = new File(destFile, objectname + "." +  model.getType());
 			}
 		}
-		data.put("thisClassName", thisClassName);
-		data.put(model.getType() + "Name", objectname);
+		data.put("thisClassName", thisClassName);  
+		data.put(model.getType() + "Name", thisClassName);
 		data.put(model.getType() + "Package", model.getTargetPackage());
 		data.put("root", model.getRoot());
 		if(StringUtils.isNoneBlank(model.getRoot())){
@@ -111,13 +111,13 @@ public class MydogDataHanlder {
 
 	protected String getMethodName(String field, String type, MethodType methodType) {
 		if (methodType == MethodType.READ) {
-			String readHead = "set";
+			String readHead = "get";
+			if (StringUtils.equalsAnyIgnoreCase("Boolean", type)) {
+				readHead = "is";
+			}
 			return readHead + StringTools.toClassName(field);
 		}
-		String writeHead = "get";
-		if (StringUtils.equalsAnyIgnoreCase("Boolean", type)) {
-			writeHead = "is";
-		}
+		String writeHead = "set"; 
 		return writeHead + StringTools.toClassName(field);
 	}
 

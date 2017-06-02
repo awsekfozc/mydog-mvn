@@ -2,7 +2,7 @@ package ${package};
 
 <#if '' != rootClass>import ${root};</#if>
 
-public class ${objectname} <#if '' != rootClass>extends ${rootClass}</#if>{
+public class ${thisClassName} <#if '' != rootClass>extends ${rootClass}</#if>{
 	
 	<#list tableInfos as info>
 	/*
@@ -15,8 +15,12 @@ public class ${objectname} <#if '' != rootClass>extends ${rootClass}</#if>{
 	/*
 	* ${info.comment}
 	*/
-	private void ${info.writeMethod}(${info.javaType} ${info.property}){
+	public void ${info.writeMethod}(${info.javaType} ${info.property}){
 		this.${info.property} = ${info.property} ;
+	}
+	
+	public ${info.javaType} ${info.readMethod}(){
+		return this.${info.property} ; 
 	}
 	</#list>
 }

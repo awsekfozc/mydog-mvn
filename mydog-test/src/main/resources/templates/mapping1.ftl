@@ -1,4 +1,4 @@
-import ${package};
+package ${package};
 
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
@@ -11,7 +11,7 @@ import org.apache.ibatis.type.JdbcType;
 import ${modelPackage}.${modelName};
 <#if '' != rootClass>import ${root};</#if>
 
-public interface ${objectname} <#if '' != rootClass>extends ${rootClass}</#if>{
+public interface ${thisClassName} <#if '' != rootClass>extends ${rootClass}</#if>{
 	@Delete({
 		"delete from ${tableName}",
 		"where id = ${r'#'}{${pri.property},jdbcType=${pri.type}}"
