@@ -16,7 +16,6 @@
 				<version>0.5</version>
 				<artifactId>mydog-core</artifactId> 
 				<configuration>
-					<goalPrefix>mydog</goalPrefix>
 					<configXml>src/main/resources/generatorConfig.xml</configXml>
 				</configuration>
 			</plugin>
