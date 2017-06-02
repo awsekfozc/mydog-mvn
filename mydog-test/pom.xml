@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.mycat</groupId>
-		<artifactId>mydog-parent</artifactId>
+		<artifactId>mydog</artifactId>
 		<version>0.5</version>
 	</parent>
 	<artifactId>mydog-test</artifactId>
@@ -13,7 +13,7 @@
 		<plugins>
 			<plugin>
 				<groupId>io.mycat</groupId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.5</version>
 				<artifactId>mydog-core</artifactId>
 				<configuration>
 					<goalPrefix>mydog-core</goalPrefix>
