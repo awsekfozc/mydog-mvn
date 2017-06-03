@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.mydog.config.utils.DataType;
 import org.mydog.config.utils.KeyMap;
+import org.mydog.config.utils.ResultType;
 import org.mydog.config.utils.StringTools;
 import org.mydog.dao.SpringJdbc;
 import org.mydog.loader.xml.XmlConfigLoader;
@@ -40,6 +41,7 @@ public class MydogDataHanlder {
 			SpringJdbc jdbc = new SpringJdbc();
 			Map<String, Object> data = new KeyMap<Object>();
 			List<Map<String, Object>> tableColumns = jdbc.query(String.format(SHOW_TABLE_DESC_SQL, entry.getKey()));
+			Map<String, ResultType> columnTypeMap = jdbc.queryTableMeta( entry.getKey()) ;
 			for (Map<String, Object> tableColumn : tableColumns) {
 				String type = toType(StringTools.toString(tableColumn.get("type")));
 				String field = StringTools.toString(tableColumn.get("field"));
@@ -48,7 +50,7 @@ public class MydogDataHanlder {
 				tableColumn.put("property", StringTools.toProperty(field));
 				tableColumn.put("readMethod", getMethodName(field, javaType, MethodType.READ));
 				tableColumn.put("writeMethod", getMethodName(field, javaType, MethodType.WRITE));
-				tableColumn.put("type", type.toUpperCase().replace("TINYINT1", "TINYINT"));
+				tableColumn.put("type", columnTypeMap.get(field).getColumnTypeName()) ; 
 				tableColumn.remove("collation");
 				tableColumn.remove("null");
 				tableColumn.remove("default");
