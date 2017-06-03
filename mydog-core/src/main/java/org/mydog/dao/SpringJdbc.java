@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.mydog.config.utils.DataSourceTools;
 import org.mydog.config.utils.KeyMap;
+import org.mydog.config.utils.ResultType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -51,8 +52,8 @@ public class SpringJdbc {
 		}
 	}
 
-	public Map<String, Class<?>> queryTableMeta(String tableName) {
-		Map<String, Class<?>> data = new KeyMap<Class<?>>();
+	public Map<String, ResultType> queryTableMeta(String tableName) {
+		Map<String, ResultType> data = new KeyMap<ResultType>();
 		Connection connection = DataSourceUtils.getConnection(dataSource);
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -60,14 +61,15 @@ public class SpringJdbc {
 			ps = connection.prepareStatement(String.format("select * from %s", tableName));
 			rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
-			int cloumnLength = rsmd.getColumnCount(); 
-			while(rs.next()){
-				for(int x=0;x<cloumnLength;x++){
-					data.put(rsmd.getColumnLabel(x+1), rs.getObject(x+1).getClass()) ;
-				}
+			int cloumnLength = rsmd.getColumnCount();
+			for (int x = 0; x < cloumnLength; x++) {
+				String columnName = rsmd.getColumnName( x+1) ;
+				String columnTypeName = rsmd.getColumnTypeName(x+1);
+				int columnType = rsmd.getColumnType(x+1);
+				data.put(columnName, new ResultType(columnType, columnTypeName, columnName)) ;  
 			}
 		} catch (Exception e) {
-			e.printStackTrace(); 
+			e.printStackTrace();
 		} finally {
 			JdbcUtils.closeResultSet(rs);
 			JdbcUtils.closeStatement(ps);
