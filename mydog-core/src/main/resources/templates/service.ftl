@@ -3,8 +3,10 @@ package ${package};
 import java.util.List;
 import ${modelPackage}.${modelName};
 <#if '' != rootClass>import ${root};</#if>
+import org.springframework.stereotype.Service;
 import ${mapppingPackage}.${mapppingName}; 
 
+@Service
 public class ${thisClassName} <#if '' != rootClass>extends ${rootClass}</#if>{
 	
 	private ${mapppingName} mapping;
