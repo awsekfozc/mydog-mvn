@@ -4,11 +4,13 @@ import java.util.List;
 import ${modelPackage}.${modelName};
 <#if '' != rootClass>import ${root};</#if>
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import ${mapppingPackage}.${mapppingName}; 
 
 @Service
 public class ${thisClassName} <#if '' != rootClass>extends ${rootClass}</#if>{
 	
+	@Autowired
 	private ${mapppingName} mapping;
 	
 	public int deleteByPrimaryKey(${pri.javaType} ${pri.property}){
