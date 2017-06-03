@@ -50,7 +50,7 @@ public class MydogDataHanlder {
 				tableColumn.put("property", StringTools.toProperty(field));
 				tableColumn.put("readMethod", getMethodName(field, javaType, MethodType.READ));
 				tableColumn.put("writeMethod", getMethodName(field, javaType, MethodType.WRITE));
-				tableColumn.put("type", columnTypeMap.get(field).getColumnTypeName()) ; 
+				tableColumn.put("type", columnTypeMap.get(field).getJdbcType().name()) ; 
 				tableColumn.remove("collation");
 				tableColumn.remove("null");
 				tableColumn.remove("default");

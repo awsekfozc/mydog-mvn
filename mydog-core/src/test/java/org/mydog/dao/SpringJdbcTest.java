@@ -12,7 +12,7 @@ public class SpringJdbcTest {
 		XmlConfigLoader.getLoader().setSchemaFile(schemaFile).load(); 
 		SpringJdbc springJdbc = new SpringJdbc(); 
 		
-		Map<String, ResultType> queryTableMeta = springJdbc.queryTableMeta("ttt");
+		Map<String, ResultType> queryTableMeta = springJdbc.queryTableMeta("users");
 		queryTableMeta.values().forEach(System.out::println); 
 	}
 }
