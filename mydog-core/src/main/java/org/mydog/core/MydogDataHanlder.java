@@ -83,7 +83,7 @@ public class MydogDataHanlder {
 			thisClassName = objectname ;
 			destFile = new File(destFile, thisClassName + ".java");
 		} else if (StringUtils.equalsAnyIgnoreCase(model.getType(), "mappping", "service", "controller", "dao",
-				"daoImpl")) {
+				"daoImpl" , "sqlProvider" , "Provider")) {
 			thisClassName =  objectname + StringTools.toClassName(model.getType())  ;
 			
 			destFile = new File(destFile, objectname + StringTools.toClassName(model.getType()) + ".java");
