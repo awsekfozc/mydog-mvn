@@ -26,8 +26,9 @@
       <generator type="domain" targetPackage="hp.edu.orm.domain" />
       <generator type="mappping" targetPackage="hp.edu.orm.mapping" />
       <generator type="service" targetPackage="hp.edu.service"/>
-      <!--  
       
+      <generator type="html" targetPackage="admin.{tablename}"/>
+      <!--  
       <generator type="service" targetPackage="hp.edu.service" root="hp.edu.service.BaseService"/>
        -->
     </generators>
@@ -41,7 +42,7 @@
 	    <table tableName="users" domainObjectName="Users" name="系统用户管理" >
 	    	<!-- <columnOverride column="enabled" javaType="java.lang.String" jdbcType="VARCHAR" /> -->
 	    	<columnSymbol column="username" symbol="like" value="&quot;%&quot;{value}&quot;%&quot;"/> 
-	    	
+	    	<columnSymbol column="name" symbol="like" value="&quot;%&quot;{value}&quot;%&quot;"/>
 	    	<columnValue column="enable">
 	    		<value key="1" value="启用"/>
 	    		<value key="0" value="禁用"/>

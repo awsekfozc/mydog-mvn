@@ -1,6 +1,9 @@
 package org.mydog2.utils;
 
 import java.io.File;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringTools {
 
@@ -59,4 +62,23 @@ public class StringTools {
 		return buffer.toString() ;
 	}
 	
+	public static String replace(String source,Map<String, Object> data){
+		
+		Pattern pattern = Pattern.compile("\\{[^}]+\\}");
+		String resultStr = source ; 
+		Matcher matcher = pattern.matcher(source);
+		while(matcher.find()){
+			String str = matcher.group();
+			str = str.substring(1, str.length() - 1);
+			resultStr = resultStr.replace("{"+str+"}", StringTools.toString(data.get(str)) ) ;
+		}
+		return resultStr;
+	}
+	
+	public static void main(String[] args) {
+		Map<String, Object> data = new KeyMap<Object>();
+		data.put("tableName", "users");
+		
+		System.out.println(replace("admin.{tableName}", data));
+	}
 }

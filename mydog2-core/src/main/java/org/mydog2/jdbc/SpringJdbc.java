@@ -83,6 +83,7 @@ public class SpringJdbc {
 					columnSymbol.setQueryValue( columnSymbol.getValue().replaceAll("\\{value\\}", "#{"+resultType.getProperty()+"}")); 
 					resultType.setColumnSymbol( columnSymbol );
 				}
+				 
 				/*设置字段显示的值*/
 				resultType.setColumnValue( tableModel.getColumnValue().get(field) ) ;
 				resultTypes.put(field, resultType) ; 

@@ -44,6 +44,7 @@ public class FreemarkerEngine {
 		try {
 			new File(destFile).getParentFile().mkdirs();  
 			
+			MyDogLog.getLog().info("data:" + data);
 			MyDogLog.getLog().info("outputfile:" + destFile);
 			
 			writer = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(destFile),"UTF-8"));

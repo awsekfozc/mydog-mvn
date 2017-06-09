@@ -45,7 +45,8 @@ public class MyDogGenerate {
 	protected static void generateFile(Map<String, Object> data, GeneratorModel model) {
 		XmlConfigLoader configLoader = XmlConfigLoader.getConfigLoader();
 		data.put("package", model.getTargetPackage());
-		File destFile = new File(configLoader.getOutputDirectory(), "generate-source/" + model.getFolder());
+		File destFile = new File(configLoader.getOutputDirectory(), "generate-source/" + 
+		StringTools.replace(model.getFolder(), data));
 		String objectname = StringTools.toString(data.get("objectname"));
 		String thisClassName = null;
 		if (StringUtils.equalsAnyIgnoreCase(model.getType(), "domain")) {
@@ -56,13 +57,8 @@ public class MyDogGenerate {
 			thisClassName = objectname + StringTools.toClassName(model.getType());
 
 			destFile = new File(destFile, objectname + StringTools.toClassName(model.getType()) + ".java");
-		} else {
-			if (model.getType().indexOf(".") > -1) {
-				destFile = new File(destFile, objectname + model.getType());
-			} else {
-				destFile = new File(destFile, objectname + "." + model.getType());
-			}
 		}
+		
 		data.put("thisClassName", thisClassName);
 		data.put(model.getType() + "Name", thisClassName);
 		data.put(model.getType() + "Package", model.getTargetPackage());
@@ -82,6 +78,11 @@ public class MyDogGenerate {
 			int index = 0 ;
 			for (String tpl : model.getTmplates()) {
 				index++ ;
+				
+				
+				if(destFile.getName().lastIndexOf(".") == -1){
+					destFile = new File(destFile , objectname + new File(tpl).getName()) ; 
+				}
 				
 				FreemarkerEngine.process(data, tpl, index == 1 ? destFile.getAbsolutePath() : String
 						.format("%s/%s", destFile.getParentFile().getAbsolutePath() ,

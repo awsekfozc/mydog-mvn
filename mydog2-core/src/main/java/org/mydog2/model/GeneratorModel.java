@@ -30,6 +30,7 @@ public class GeneratorModel implements Serializable {
 		templateMap.putItem("mappping", "/templates/sqlProvider.java");
 		templateMap.putItem("service", "/templates/service.java");
 		templateMap.putItem("controller", "/templates/controller.java");
+		templateMap.putItem("html", "/templates/list.html"); 
 	}
 
 	public List<String> getTmplates() {
@@ -74,6 +75,9 @@ public class GeneratorModel implements Serializable {
 	}
 
 	public String getFolder() {
-		return StringUtils.replace(targetPackage, ".", File.separator);
+		String replace = StringUtils.replace(targetPackage, ".", File.separator);
+		
+		
+		return replace ;
 	}
 }
