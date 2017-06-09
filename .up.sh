@@ -1,6 +1,6 @@
 #!/bin/bash
 
-param = $1
+param=$1
 
 if [ -z "$param" ] 
 then
