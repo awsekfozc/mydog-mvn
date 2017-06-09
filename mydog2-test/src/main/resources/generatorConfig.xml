@@ -6,6 +6,7 @@
     <!-- 自定义属性，可以将这些属性 模版中生成，只用 直接是${autoer},暂时不支持带小数点的属性 --> 
     <properties>
     	<property name="author" value="Mycat Mydog"/>
+    	<property name="url_head" value="/admin"/>
     </properties>
     <!-- 数据库链接，暂时只支持Mysql，后续会支持 sqlserver，oracle 等主流数据库 -->
     <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionUrl="jdbc:mysql://127.0.0.1:3306/test" username="root" password="123456"/>
@@ -25,9 +26,10 @@
     <generators>
       <generator type="domain" targetPackage="hp.edu.orm.domain" />
       <generator type="mappping" targetPackage="hp.edu.orm.mapping" />
-      <generator type="service" targetPackage="hp.edu.service"/>
+      <generator type="service" targetPackage="hp.edu.service" />
+      <generator type="controller" targetPackage="hp.edu.controller" />
       
-      <generator type="html" targetPackage="admin.{tablename}"/>
+      <generator type="html" targetPackage="admin.{domainName}"/>
       <!--  
       <generator type="service" targetPackage="hp.edu.service" root="hp.edu.service.BaseService"/>
        -->
@@ -43,7 +45,7 @@
 	    	<!-- <columnOverride column="enabled" javaType="java.lang.String" jdbcType="VARCHAR" /> -->
 	    	<columnSymbol column="username" symbol="like" value="&quot;%&quot;{value}&quot;%&quot;"/> 
 	    	<columnSymbol column="name" symbol="like" value="&quot;%&quot;{value}&quot;%&quot;"/>
-	    	<columnValue column="enable">
+	    	<columnValue column="enabled">
 	    		<value key="1" value="启用"/>
 	    		<value key="0" value="禁用"/>
 	    	</columnValue>

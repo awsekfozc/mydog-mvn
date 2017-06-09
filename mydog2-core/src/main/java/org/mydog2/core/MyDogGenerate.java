@@ -25,6 +25,7 @@ public class MyDogGenerate {
 			SpringJdbc jdbc = new SpringJdbc();
 			Map<String, ResultType> data = jdbc.queryTableMetas(entry.getKey());
 			Map<String, Object> templateDataMap = new KeyMap<Object>();
+			templateDataMap.putAll(configLoader.getVarMap()); 
 			templateDataMap.put("tableInfos", data.values());
 
 			for (Map.Entry<String, ResultType> tableEntry : data.entrySet()) {
@@ -44,7 +45,7 @@ public class MyDogGenerate {
 
 	protected static void generateFile(Map<String, Object> data, GeneratorModel model) {
 		XmlConfigLoader configLoader = XmlConfigLoader.getConfigLoader();
-		data.put("package", model.getTargetPackage());
+		data.put("package", model.getTargetPackage());		
 		File destFile = new File(configLoader.getOutputDirectory(), "generate-source/" + 
 		StringTools.replace(model.getFolder(), data));
 		String objectname = StringTools.toString(data.get("objectname"));

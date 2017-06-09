@@ -15,6 +15,7 @@ import org.mydog2.model.TableModel.ColumnOverride;
 import org.mydog2.model.TableModel.ColumnSymbol;
 import org.mydog2.model.TableModel.ColumnValue;
 import org.mydog2.utils.JarTools;
+import org.mydog2.utils.KeyMap;
 import org.mydog2.utils.StringTools;
 import org.w3c.dom.Element;
 
@@ -35,6 +36,7 @@ public class XmlConfigLoader {
 	protected JdbcConnection jdbcConnection;
 	private String outputDirectory;
 	private Map<String, TableModel> tableMap = new HashMap<String, TableModel>();
+	private Map<String, String> varMap = new KeyMap<String>();
 
 	public String xmlConfig;
 
@@ -57,6 +59,10 @@ public class XmlConfigLoader {
 		return tableMap;
 	}
 
+	public Map<String, String> getVarMap() {
+		return varMap;
+	}
+
 	/**
 	 * 加载读取xml文件
 	 */
@@ -70,6 +76,7 @@ public class XmlConfigLoader {
 			loadTable(root);
 			loadJdbcConnection(root);
 			loadGenerators(root);
+			loadVars(root);
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		} finally {
@@ -119,6 +126,13 @@ public class XmlConfigLoader {
 		jdbcConnection.setUsername(attributes.get("username"));
 	}
 
+	/*加载变量*/
+	private void loadVars(Element root) {
+		Element e = XmlUtil.getElement(root, "properties");
+		if(null != e){
+			varMap = XmlUtil.loadProperty(e);
+		}
+	}
 	/**
 	 * 加载表信息
 	 */
@@ -148,10 +162,10 @@ public class XmlConfigLoader {
 				}
 				tableModel.getColumnValue().put(column, columnValue);
 			}
-			
+
 			/**
 			 * 读取自定义的属性类型
-			 * */
+			 */
 			List<Element> columnOverrides = XmlUtil.getElements(element, "columnOverride");
 			for (Element columnElement : columnOverrides) {
 				ColumnOverride columnOverride = new ColumnOverride();
@@ -160,10 +174,10 @@ public class XmlConfigLoader {
 				columnOverride.setJdbcType(columnElement.getAttribute("jdbcType"));
 				tableModel.getColumnOverride().put(columnOverride.getColumn(), columnOverride);
 			}
-			
+
 			/**
 			 * 读取查询链接符号
-			 * */
+			 */
 			List<Element> columnSymbols = XmlUtil.getElements(element, "columnSymbol");
 			for (Element columnElement : columnSymbols) {
 				ColumnSymbol columnSymbol = new ColumnSymbol();
@@ -181,7 +195,7 @@ public class XmlConfigLoader {
 		this.outputDirectory = outputDirectory;
 		return this;
 	}
-
+	
 	public XmlConfigLoader setXmlConfig(String xmlConfig) {
 		this.xmlConfig = xmlConfig;
 		return this;
