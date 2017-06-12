@@ -72,7 +72,7 @@ public class StringTools {
 			str = str.substring(1, str.length() - 1);
 			resultStr = resultStr.replace("{"+str+"}", StringTools.toString(data.get(str)) ) ;
 		}
-		return resultStr;
+		return resultStr.toLowerCase() ;
 	}
 	
 	public static void main(String[] args) {

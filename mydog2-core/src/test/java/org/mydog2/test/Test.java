@@ -13,7 +13,7 @@ public class Test {
 		XmlConfigLoader.getConfigLoader().setXmlConfig(new File("src/main/resources/generatorConfig.xml").getAbsolutePath())
 		.setOutputDirectory(new File("").getAbsolutePath() + "/target/")
 				.load();
-		
+			
 		MyDogGenerate.handler(); 
 		
 		System.out.println( JdbcType.forName("VARCHAR") );
