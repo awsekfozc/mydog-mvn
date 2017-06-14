@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0,minimum-scale=0.5,maximum-scale=1.0">
+		<title>DataTables Bootstrap 2 example</title>
+		<link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap-combined.min.css">
+		<link rel="stylesheet" type="text/css" href="../../assets/css/dataTables.bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
+
+		<script type="text/javascript" language="javascript" src="../../assets/js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" language="javascript" src="../../assets/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" language="javascript" src="../../assets/js/dataTables.bootstrap.js"></script>
+		<script type="text/javascript" language="javascript" src="../../assets/js/datatable-zh.js"></script>
+		<script type="text/javascript" language="javascript" src="../../assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				var ${pri.property} = getParam("${pri.property}") ;
+				$.post("${url_head!}/${domainName}/get",{${pri.property}:${pri.property}},function(json){
+					var data = json.data ;
+					for(v in data){
+						var str = data[v].toString() ;
+						if(str == 'true' || str == 'false'){
+							data[v] = data[v] ? 1 : 0 ; 
+						}
+						$("#" + v).val(data[v]);
+					}
+				},"json")
+				
+				$("#frm").submit(function(){
+					var data = new FormData($( "#frm" )[0]);
+					
+					$.ajax({
+						type : 'POST',
+						url : '${url_head!}/${domainName}/save' ,
+						processData : false ,
+						 dataType: 'json',
+			            contentType : false,
+						data : data 
+					}).success(function(data){
+						if(data.status == 200){
+							window.location="${listPage!}"
+						}else{
+							alert( data.message );
+						}
+					}).error(function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("服务器内部错误");
+					});
+					return false ;
+				})
+			})
+			
+			function getParam(name){
+				var url = window.location.href.toString() ;  
+				
+				var markIndex = url.indexOf("?")
+				if(markIndex>-1){
+					url = url.substring(markIndex+1);
+				}
+				var wellIndex = url.indexOf("#") ;
+				if(wellIndex>-1){
+					url = url.substring(0 , wellIndex);
+				}
+				var splits = url.split("&");
+				for(i=0;i<splits.length;i++){
+					var split = splits[i];
+					var array = split.split("=")
+					if(name == array[0]){
+						return array[1]
+					}
+				}
+				return ""; 
+			}
+		</script>
+	</head>
+	<body>
+		
+		<div class="container">
+			<div class="row">
+				<ul class="breadcrumb">
+					<li><a href="javascript:void(-1)">首页</a></li>
+					<li>编辑</li>
+				</ul>
+				<form id="frm" method="post" class="form-horizontal form-inline">
+					<input style="display:none;" id="${pri.property}" name="${pri.property}"/>
+					<#list tableInfos as info>
+						<#if !info.pri>
+						<div class="form-group col-md-6">
+						    <label class="col-md-2 control-label">${info.comment}：</label>
+						    <div class="col-md-4">
+						     		<#if info.columnValue ??>
+							     		<select class="form-control" id="${info.property}" name="${info.property}">
+							     			<option value="">请选择</option>
+							     			<#list info.columnValue.map?keys as key>
+							     				<option value="${key}">${info.columnValue.map[key]}</option>
+							     			</#list>
+							     		</select>
+							     	<#else>
+							     		<input type="text" class="form-control" id="${info.property}" name="${info.property}" style="width: 250px">
+							     	</#if>
+						     		
+						    </div> 
+						</div>
+						</#if>
+					</#list>
+					
+					<div class="form-group col-md-12">
+							<div class="col-md-offset-5">
+								<button class="btn btn-default">保存</button>
+								<a class="btn btn-default" href="${listPage!}">取消</a>
+							</div>
+						</div>
+				</form>
+			</div>
+		</div>
+		
+	</body>
+</html>

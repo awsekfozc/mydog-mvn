@@ -29,7 +29,7 @@
       <generator type="service" targetPackage="hp.edu.service" />
       <generator type="controller" targetPackage="hp.edu.controller" />
       
-      <generator type="html" targetPackage="admin.{tablename}"/>
+      <generator type="html" targetPackage="admin.{domainName}"/>
       <!--  
       <generator type="service" targetPackage="hp.edu.service" root="hp.edu.service.BaseService"/>
        -->
@@ -49,7 +49,18 @@
 	    		<value key="1" value="启用"/>
 	    		<value key="0" value="禁用"/>
 	    	</columnValue>
+	    	<columnValue column="user_type">
+	    		<value key="1" value="管理员"/>
+	    		<value key="0" value="普通会员"/> 
+	    	</columnValue>
+				    	
+	    	<queryColumn column="username"/>
+	    	<queryColumn column="name"/>
+	    	<queryColumn column="enabled"/>
 	    	
+	    	<querySql>
+	    		select users.password, users.user_type, users.create_time, users.mobile_phone, users.name, users.id, users.portrait_url, users.email, users.remarks, users.enabled, users.username from users left join user_login on users.id = user_login.userid
+	    	</querySql>
 	    </table>
     </tables>
   </context> 

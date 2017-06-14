@@ -24,7 +24,8 @@ public class ${thisClassName} <#if '' != rootClass>extends ${rootClass}</#if>{
    public int insert(${domainName} ${tableName}){
     	return mapping.insert( ${tableName} );
     }
-    
+   
+   
     public List<${domainName}> selectAll(){
    	 return mapping.selectAll() ;
     }

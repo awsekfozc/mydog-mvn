@@ -53,6 +53,10 @@
 	    		<value key="1" value="管理员"/>
 	    		<value key="0" value="普通会员"/> 
 	    	</columnValue>
+				    	
+	    	<queryColumn column="username"/>
+	    	<queryColumn column="name"/>
+	    	<queryColumn column="enabled"/>
 	    </table>
     </tables>
   </context> 

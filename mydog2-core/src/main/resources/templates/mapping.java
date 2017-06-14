@@ -52,7 +52,7 @@ public interface ${thisClassName} <#if '' != rootClass>extends ${rootClass}</#if
     
      @Update({  
         "update ${tableName}" , 
-        "set <#list tableInfos as info><#if info.pri>${info.columnLabel} = ${r'#'}{${info.property},jdbcType=${info.columnTypeName}}<#if info_has_next>,</#if></#if></#list>",
+        "set <#list tableInfos as info><#if !info.pri>${info.columnLabel} = ${r'#'}{${info.property},jdbcType=${info.columnTypeName}}<#if info_has_next>,</#if></#if></#list>",
         "where id = ${r'#'}{${pri.columnLabel},jdbcType=${pri.columnTypeName}}" 
     })
     int updateByPrimaryKey(${domainName} ${tableName});

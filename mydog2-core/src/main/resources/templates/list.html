@@ -13,6 +13,9 @@
 		<script type="text/javascript" language="javascript" src="../../assets/js/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" language="javascript" src="../../assets/js/datatable-zh.js"></script>
 		<script type="text/javascript" language="javascript" src="../../assets/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			.container{width:100%;}
+		</style>
 		<script type="text/javascript" charset="utf-8">
 			var table  ;
 			$(document).ready(function() {
@@ -23,10 +26,20 @@
 						"url":"${url_head!}/${domainName}/list" , 
 						"data":function(d){
 							d.time = new Date().getTime(); 
+							
+							<#list queryColumns as qc>
+							  d.${qc.property} = $("${r'#'}${qc.property}").val();
+							</#list>
 						}
 					} , 
+					"initComplete":function(){
+						 $("#userData_length").addClass("col-md-2") ; 
+						$("#toolbar").append("<a href='${editPage}'" +
+	                    "class='btn btn-primary btn-sm' style='float:left'>新增</a>");  
+					}, 
 					"aoColumns":[
 						<#list tableInfos as info>
+						<#if !info.pri>
 						{
 							"mData" : "${info.property}",
 							"orderable": false ,
@@ -48,38 +61,73 @@
 								}
 							</#if>
 						}<#if info_has_next>,</#if>
+						</#if>
 						</#list>
+						,{
+							"mData" : "${pri.property}",
+							"orderable": false ,
+							"sDefaultContent" : "",
+							"title" : "操作",
+							render:function(data, type, full, meta){
+								return "<a class='btn btn-sm btn-primary' onclick='window.location=\"${editPage!}?id="+data+"\"'>编辑</a> <a class='btn btn-sm btn-danger' onclick='del(\""+data+"\")'>删除</a>" ; 
+							}
+						}
 					]
 				});
 			} ); 
+			
+			function del(${pri.property}){
+				
+				if(!confirm("是否确认删除该记录?")){
+					return;
+				}
+				
+				$.post("${url_head!}/${domainName}/delete",{${pri.property}:${pri.property}},function(json){
+					
+					if(json.status == 200){
+						table.ajax.reload();
+					}else{
+						alert(data.message);
+					}
+					
+				},"json")
+			}
 		</script>
 	</head>
-	<body style="overflow-x: hidden;"> 
+	<body>
+		
+		<div class="container">
 		<div class="row" style="padding-left:20px;padding-top:5px;">
 			 <div class="col-md-10">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<form onsubmit="table.ajax.reload();return false" class="form-horizontal" method="get">
-							<div class="form-group">
-							    <label class="col-sm-2 control-label">帐号：</label>
-							    <div class="col-sm-3">
-							     <input type="text" class="form-control" id="username" name="username" style="width: 250px">
-							    </div>
-							    
-							    <label class="col-sm-2 control-label">姓名：</label>
-							    <div class="col-sm-3">
-							     <input type="text" class="form-control" id="name" name="name" style="width: 250px">
-							    </div>
-							</div>
+							<form onsubmit="table.ajax.reload();return false" class="form-horizontal form-inline" method="get">
 							
-							
-							<div class="form-group" style="margin-left:70%">
-							    <div class="col-sm-2">
-							     <input type="button" onclick="table.ajax.reload()" class="btn btn-default" value="查询" />
-							    </div>
-							</div>
-						</form>
-					</div>
+								<#list queryColumns as qc>
+									<div class="form-group">
+									    <label class="col-md-2 control-label">${qc.comment}：</label>
+									    <div class="col-md-4">
+									    	<#if qc.columnValue ??>
+									     		<select class="form-control" id="${qc.property}" name="${qc.property}">
+									     			<option value="">请选择</option>
+									     			<#list qc.columnValue.map?keys as key>
+									     				<option value="${key}">${qc.columnValue.map[key]}</option>
+									     			</#list>
+									     		</select>
+									     	<#else>
+									     		<input type="text" class="form-control" id="${qc.property}" name="${qc.property}" style="width: 250px">
+									     	</#if>
+									    </div>
+									</div>
+								</#list>
+								
+								<div class="form-group" style="margin-left:70%">
+								    <div class="col-sm-2">
+								     <input type="button" onclick="table.ajax.reload()" class="btn btn-default" value="查询" />
+								    </div>
+								</div>
+							</form>
+						</div>
 				</div>
 				
 				<form action="" method="post" > 
@@ -90,6 +138,6 @@
 			</div>
 		</div>
 		
-		 
+		 </div>
 	</body>
 </html>

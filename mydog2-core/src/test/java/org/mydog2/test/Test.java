@@ -2,9 +2,9 @@ package org.mydog2.test;
 
 import java.io.File;
 
-import org.mydog2.core.MyDogGenerate;
-import org.mydog2.jdbc.enums.JdbcType;
-import org.mydog2.xml.XmlConfigLoader;
+import io.mycat.core.MyDogGenerate;
+import io.mycat.mydog.jdbc.enums.JdbcType;
+import io.mycat.mydog.xml.XmlConfigLoader;
 
 public class Test {
 
@@ -13,7 +13,7 @@ public class Test {
 		XmlConfigLoader.getConfigLoader().setXmlConfig(new File("src/main/resources/generatorConfig.xml").getAbsolutePath())
 		.setOutputDirectory(new File("").getAbsolutePath() + "/target/")
 				.load();
-			
+		
 		MyDogGenerate.handler(); 
 		
 		System.out.println( JdbcType.forName("VARCHAR") );
